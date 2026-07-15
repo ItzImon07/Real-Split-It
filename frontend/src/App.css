@@ -1,0 +1,508 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  --ink: #211d19;
+  --ink-soft: #2c2721;
+  --paper: #f4efe3;
+  --paper-shadow: #d9d2c1;
+  --stamp-red: #b33a3a;
+  --text-ink: #2a2620;
+  --text-faint: #8a8272;
+  --border-hair: #d3ccb9;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  background-image: radial-gradient(circle at 50% 0%, var(--ink-soft), var(--ink) 70%);
+  color: var(--text-ink);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px 80px;
+}
+
+/* ---------- Brand header ---------- */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+  color: var(--paper);
+}
+
+.brand-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.4rem;
+  letter-spacing: 0.12em;
+}
+
+.brand-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #a89f8c;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Receipt paper card ---------- */
+.receipt-paper {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: var(--paper);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 36px 28px 44px;
+}
+
+/* Torn / perforated edges using a repeating triangle mask */
+.perf-top,
+.perf-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-image: linear-gradient(135deg, var(--ink) 50%, transparent 50%),
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%);
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+}
+.perf-top {
+  top: -12px;
+  background-position: bottom left;
+}
+.perf-bottom {
+  bottom: -12px;
+  background-position: top left;
+  transform: scaleY(-1);
+}
+
+/* ---------- Section layout ---------- */
+.ledger-section {
+  padding: 20px 0;
+}
+
+.ledger-heading {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+  color: var(--text-ink);
+}
+
+.divider {
+  border-top: 1px dashed var(--border-hair);
+}
+
+/* ---------- Dropzone ---------- */
+.dropzone {
+  border: 2px dashed var(--border-hair);
+  border-radius: 4px;
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dropzone:hover {
+  border-color: var(--stamp-red);
+}
+
+.dropzone-active {
+  border-color: var(--stamp-red);
+  background: rgba(179, 58, 58, 0.06);
+}
+
+.dropzone-busy {
+  cursor: wait;
+}
+
+.dropzone-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropzone-icon {
+  font-size: 1.8rem;
+}
+
+.dropzone-hint {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--border-hair);
+  border-top-color: var(--stamp-red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stamp {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--stamp-red);
+  border: 2px solid var(--stamp-red);
+  border-radius: 4px;
+  padding: 4px 10px;
+  transform: rotate(-4deg);
+  letter-spacing: 0.05em;
+}
+
+.error-text {
+  color: var(--stamp-red);
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+.error-text.small {
+  font-size: 0.72rem;
+}
+
+/* ---------- Forms & inputs ---------- */
+.text-input {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  border: 1px solid var(--border-hair);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--text-ink);
+}
+.text-input:focus {
+  outline: 2px solid var(--stamp-red);
+  outline-offset: 1px;
+}
+
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.add-user-form-row {
+  display: flex;
+  gap: 8px;
+}
+.add-user-form .text-input {
+  flex: 1;
+}
+.add-user-form-row .text-input {
+  flex: 1;
+}
+
+.btn-add {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: var(--stamp-red);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+.btn-add:hover {
+  opacity: 0.9;
+}
+
+.empty-hint {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+.empty-hint.small {
+  margin: 6px 0 0;
+}
+
+/* ---------- Friends list ---------- */
+.friend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.friend-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted var(--border-hair);
+}
+.friend-row:last-child {
+  border-bottom: none;
+}
+
+.friend-row-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.friend-name {
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.btn-remove:hover {
+  color: var(--stamp-red);
+}
+
+.category-picker-label {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 2px 0 0;
+}
+
+.category-chip-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.category-chip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.category-chip:hover {
+  opacity: 0.85;
+}
+
+/* ---------- Avatars ---------- */
+.avatar-bubble {
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  flex-shrink: 0;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.avatar-clickable {
+  cursor: pointer;
+}
+.avatar-clickable:hover {
+  transform: scale(1.08);
+}
+.avatar-active {
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px currentColor;
+}
+
+/* ---------- Extra charges ---------- */
+.extra-charges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.extra-charge-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.extra-charge-row > span {
+  width: 70px;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.extra-input-group {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.extra-input-group .text-input {
+  flex: 1;
+  width: 100%;
+}
+
+.btn-secondary {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  background: transparent;
+  color: var(--text-ink);
+  border: 1px dashed var(--border-hair);
+  border-radius: 3px;
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--stamp-red);
+  color: var(--stamp-red);
+  background: rgba(179, 58, 58, 0.04);
+}
+
+/* ---------- Item ledger rows ---------- */
+.item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.item-row {
+  padding-bottom: 14px;
+  border-bottom: 1px dotted var(--border-hair);
+}
+.item-row:last-child {
+  border-bottom: none;
+}
+
+.item-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+
+.item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+/* The dotted "leader" that fills the gap between a label and its number,
+   like a classic invoice or table-of-contents line */
+.item-leader {
+  flex: 1;
+  border-bottom: 1px dotted var(--text-faint);
+  height: 0;
+  margin-bottom: 4px;
+}
+
+.item-price {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tag-pill {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 2px 9px;
+  margin-bottom: 10px;
+}
+
+.assign-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.per-person-hint {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin: 0;
+}
+
+/* ---------- Summary ---------- */
+.summary-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.85rem;
+  padding: 4px 0;
+}
+
+.summary-total {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--stamp-red);
+}
+
+.user-total-list {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px dashed var(--border-hair);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-total-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+}
+
+.user-total-amount {
+  font-weight: 700;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 400px) {
+  .receipt-paper {
+    padding: 28px 18px 36px;
+  }
+  .extra-charges-grid {
+    grid-template-columns: 1fr;
+  }
+}
