@@ -62,7 +62,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://split-it-frontend.onrender.com",  # replace with your actual Render frontend URL once deployed
+    "https://split-it-frontend-9n99.onrender.com",  # replace with your actual Render frontend URL once deployed
 ]
 
 ROOT_URLCONF = 'backend.urls'
