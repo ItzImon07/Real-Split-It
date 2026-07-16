@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo, useCallback } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:8000/api/process-receipt/";
+const API_URL = `${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/process-receipt/`;
 
 // Muted "stamp ink" palette for friend avatars — cycles as friends are added
 const AVATAR_COLORS = [
