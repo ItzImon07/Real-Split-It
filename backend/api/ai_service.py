@@ -37,7 +37,7 @@ _client = genai.Client(api_key=_API_KEY) if _API_KEY else None
 
 _MODEL_NAME = "gemini-2.5-flash"
 
-_VALID_TAGS = {"veg", "non-veg", "drinks", "desserts", "staples"}
+_VALID_TAGS = {"veg", "non-veg", "drinks", "desserts", "staples", "general"}
 
 _EXTRACTION_PROMPT = """You are a strict JSON API that reads restaurant receipt photos.
 
@@ -49,6 +49,7 @@ Look at the receipt image and extract two things:
    summed into three totals. Do NOT include these as menu items.
 
 Category tags for items (exactly one per item):
+- "general"   (items traditionally shared by the entire table. This includes all plain water (Mineral Water, Bottled Water), shared appetizers (Nachos, Bread), and shared sides (Salad for the table).)
 - "staples"   (breads, rice, and noodles: naan, roti, kulcha, paratha, papad,
               plain/jeera/fried rice, biryani, pulao, noodles/chowmein/hakka
               noodles — ALL of these are "staples" regardless of whether
@@ -56,24 +57,25 @@ Category tags for items (exactly one per item):
               Hakka Noodles" are BOTH "staples", not "non-veg"/"veg".)
 - "veg"       (vegetarian curries and other non-staple veg dishes)
 - "non-veg"   (meat, fish, egg curries and other non-staple non-veg dishes)
-- "drinks"    (beverages, alcohol, juices, water, soda)
+- "drinks"    (strictly for individual, personal beverages like Diet Coke, Soda, Alcohol, Coffee)
 - "desserts"  (sweets, ice cream, cakes, Indian mithai)
 
 Rules:
 1. Return ONLY valid JSON. No markdown, no code fences, no explanation, no preamble.
-2. "staples" takes priority over "veg"/"non-veg" for any bread, rice, or noodle
+2. "general" takes the highest priority. If an item is universally shared by the table (like bottled water or a shared salad), it MUST be tagged as "general" even if it is a drink or a vegetable. 
+3. "staples" takes priority over "veg"/"non-veg" for any bread, rice, or noodle
    dish, even if the name also mentions chicken, egg, or a vegetable.
-3. If the receipt has multiple tax lines (e.g. CGST + SGST), sum them into one
+4. If the receipt has multiple tax lines (e.g. CGST + SGST), sum them into one
    "tax" total. If there's no tax/service/tip line at all, use 0 for that field.
-4. If a price is genuinely illegible, make your best reasonable estimate rather
+5. If a price is genuinely illegible, make your best reasonable estimate rather
    than omitting the item — but never invent an item that isn't on the receipt.
-5. Always extract the FINAL total price for an item. If a line shows both a unit 
+6. Always extract the FINAL total price for an item. If a line shows both a unit 
    price and a total price (e.g., '2 x 150 = 300'), extract the total (300). If the 
    total is missing or illegible, calculate it yourself (unit price * quantity).
-6. Ignore restaurant name, address, invoice number, date, table number, and the
+7. Ignore restaurant name, address, invoice number, date, table number, and the
    final "Total"/"Grand Total" line itself — those aren't items or charges.
-7. If unsure about a category, make your best guess based on common Indian
-   restaurant menu conventions — never invent a sixth category.
+8. If unsure about a category, make your best guess based on common Indian
+   restaurant menu conventions — never invent a seventh category.
 
 Return EXACTLY this JSON shape, nothing else:
 {

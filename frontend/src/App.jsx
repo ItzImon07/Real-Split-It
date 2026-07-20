@@ -18,6 +18,7 @@ const AVATAR_COLORS = [
 // Category tag → ledger stamp color + label. Order here also drives the
 // order the category chips render in, in the "who's splitting" section.
 const TAG_STYLES = {
+  general: { color: "#5C5B8A", label: "SHARED" }, // <-- ADD THIS LINE
   staples: { color: "#A6763B", label: "STAPLES" },
   veg: { color: "#4C7A54", label: "VEG" },
   "non-veg": { color: "#A6432D", label: "NON-VEG" },
