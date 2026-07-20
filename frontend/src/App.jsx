@@ -18,11 +18,12 @@ const AVATAR_COLORS = [
 // Category tag → ledger stamp color + label. Order here also drives the
 // order the category chips render in, in the "who's splitting" section.
 const TAG_STYLES = {
-  general: { color: "#5C5B8A", label: "SHARED" },
+  general: { color: "#5C5B8A", label: "SHARED" }, 
   staples: { color: "#A6763B", label: "STAPLES" },
   veg: { color: "#4C7A54", label: "VEG" },
   "non-veg": { color: "#A6432D", label: "NON-VEG" },
-  drinks: { color: "#3B6E8F", label: "DRINKS" },
+  beverages: { color: "#3B6E8F", label: "BEVERAGES" },
+  alcohol: { color: "#8E3B6E", label: "ALCOHOL" },
   desserts: { color: "#B25C82", label: "DESSERT" },
   unknown: { color: "#7A7568", label: "UNTAGGED" },
 };
@@ -110,6 +111,14 @@ export default function App() {
       { id: makeId("user"), name, color, categories: [] }, // No initial categories
     ]);
     setNewUserName("");
+  };
+
+  const handleItemTagChange = (itemId, newTagKey) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === itemId ? { ...item, tag: newTagKey } : item
+      )
+    );
   };
 
   const handleSplitEvenly = () => {
@@ -362,7 +371,7 @@ export default function App() {
             <div className="add-user-form-row">
               <input
                 type="text"
-                placeholder="name"
+                placeholder="Name"
                 value={newUserName}
                 onChange={(e) => setNewUserName(e.target.value)}
                 className="text-input"
@@ -438,15 +447,34 @@ export default function App() {
                       <span className="item-price">{currency(item.price)}</span>
                     </div>
 
-                    <span
+                    <select
                       className="tag-pill"
+                      value={item.tag}
+                      onChange={(e) => handleItemTagChange(item.id, e.target.value)}
                       style={{
                         color: tagStyle.color,
                         borderColor: tagStyle.color,
+                        backgroundColor: "transparent",
+                        cursor: "pointer",
+                        outline: "none",
+                        appearance: "none",
+                        WebkitAppearance: "none", 
+                        MozAppearance: "none",
+                        borderRadius: "999px",
+                        paddingRight: "22px",
+                        textAlign: "center",
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='${tagStyle.color.replace('#', '%23')}'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 4px center",
+                        backgroundSize: "18px"
                       }}
                     >
-                      {tagStyle.label}
-                    </span>
+                      {CATEGORY_KEYS.map((key) => (
+                        <option key={key} value={key} style={{ color: "#000" }}>
+                          {TAG_STYLES[key].label}
+                        </option>
+                      ))}
+                    </select>
 
                     {assignedUsers.length === 0 ? (
                       <p className="per-person-hint">

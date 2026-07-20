@@ -37,7 +37,7 @@ _client = genai.Client(api_key=_API_KEY) if _API_KEY else None
 
 _MODEL_NAME = "gemini-2.5-flash"
 
-_VALID_TAGS = {"veg", "non-veg", "drinks", "desserts", "staples", "general"}
+_VALID_TAGS = {"veg", "non-veg", "beverages", "alcohol", "desserts", "staples", "general"}
 
 _EXTRACTION_PROMPT = """You are a strict JSON API that reads restaurant receipt photos.
 
@@ -57,7 +57,8 @@ Category tags for items (exactly one per item):
               Hakka Noodles" are BOTH "staples", not "non-veg"/"veg".)
 - "veg"       (vegetarian curries and other non-staple veg dishes)
 - "non-veg"   (meat, fish, egg curries and other non-staple non-veg dishes)
-- "drinks"    (strictly for individual, personal beverages like Diet Coke, Soda, Alcohol, Coffee)
+- "beverages" (strictly non-alcoholic individual drinks like juices, smoothies, sparkling water, soft drinks, mint mojito, coffee, etc. DO NOT include plain water here.)
+- "alcohol"   (strictly alcoholic drinks like whiskey, beer, wine, hard liquor, cocktails)
 - "desserts"  (sweets, ice cream, cakes, Indian mithai)
 
 Rules:
@@ -85,7 +86,6 @@ Return EXACTLY this JSON shape, nothing else:
   "charges": {"tax": 0.0, "service": 0.0, "tip": 0.0}
 }
 """
-
 
 def _extract_json_object(raw_text: str) -> str:
     """Strips markdown code fences defensively, in case Gemini wraps JSON
